@@ -485,47 +485,67 @@ function Hero({
           <span className="chip">Тиммейты</span>
         </div>
       </div>
-      <div className="hero-card">
-        <div className="hero-cta">
-          <div className="stat-block">
-            <p className="muted">Сейчас онлайн</p>
-            <div className="inline-stat">
-              <span className="status-dot" aria-hidden="true" />
-              <h2 id="onlineUsers">{online}</h2>
+      <div className="hero-right">
+        <div className="hero-card">
+          <div className="hero-cta">
+            <div className="stat-block">
+              <p className="muted">Сейчас онлайн</p>
+              <div className="inline-stat">
+                <span className="status-dot" aria-hidden="true" />
+                <h2 id="onlineUsers">{online}</h2>
+              </div>
+            </div>
+            <div className="stat-block">
+              <p className="muted">Активных объявлений</p>
+              <h2>{stats}</h2>
+            </div>
+            <div className="stat-block">
+              <p className="muted">Категорий</p>
+              <h2>9</h2>
             </div>
           </div>
-          <div className="stat-block">
-            <p className="muted">Активных объявлений</p>
-            <h2>{stats}</h2>
-          </div>
-          <div className="stat-block">
-            <p className="muted">Категорий</p>
-            <h2>9</h2>
+          <div className="mini-ads">
+            {recentAds.length === 0 ? (
+              <p className="muted">Пока нет объявлений.</p>
+            ) : (
+              recentAds.map((ad) => (
+                <div className="mini-ad" key={ad.id}>
+                  <div className="mini-ad-head">
+                    <span className="pill neutral">{ad.category}</span>
+                    <span className="price">{ad.price ? `${Number(ad.price).toLocaleString()} ₸` : "Договорная"}</span>
+                  </div>
+                  <h4 className="mini-ad-title">{ad.title}</h4>
+                  <p className="muted mini-ad-desc">{ad.description.slice(0, 120) + (ad.description.length > 120 ? "..." : "")}</p>
+                  <div className="card-actions">
+                    <button className="ghost small" onClick={() => onOpen(ad.id)}>
+                      Открыть
+                    </button>
+                    <button className={`fav-btn small ${favorites.has(ad.id) ? "active" : ""}`} onClick={() => toggleFavorite(ad.id)}>
+                      {favorites.has(ad.id) ? "В избранном" : "В избранное"}
+                    </button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
-        <div className="mini-ads">
-          {recentAds.length === 0 ? (
-            <p className="muted">Пока нет объявлений.</p>
-          ) : (
-            recentAds.map((ad) => (
-              <div className="mini-ad" key={ad.id}>
-                <div className="mini-ad-head">
-                  <span className="pill neutral">{ad.category}</span>
-                  <span className="price">{ad.price ? `${Number(ad.price).toLocaleString()} ₸` : "Договорная"}</span>
-                </div>
-                <h4 className="mini-ad-title">{ad.title}</h4>
-                <p className="muted mini-ad-desc">{ad.description.slice(0, 120) + (ad.description.length > 120 ? "..." : "")}</p>
-                <div className="card-actions">
-                  <button className="ghost small" onClick={() => onOpen(ad.id)}>
-                    Открыть
-                  </button>
-                  <button className={`fav-btn small ${favorites.has(ad.id) ? "active" : ""}`} onClick={() => toggleFavorite(ad.id)}>
-                    {favorites.has(ad.id) ? "В избранном" : "В избранное"}
-                  </button>
-                </div>
-              </div>
-            ))
-          )}
+
+        <div className="qr-card">
+          <div className="qr-copy">
+            <span className="pill instagram">Instagram</span>
+            <h3>Сканируй QR и подпишись</h3>
+            <p className="muted">Горячие объявления, закулисье проекта и апдейты — следи за нами в Instagram.</p>
+            <div className="qr-actions">
+              <a className="primary button-link" href="https://www.instagram.com/studykwork" target="_blank" rel="noreferrer">
+                Открыть профиль
+              </a>
+              <span className="muted small">Или наведи камеру на QR</span>
+            </div>
+          </div>
+          <div className="qr-image-wrap">
+            <img src="/qr.png" alt="QR-код на Instagram StudyKwork" className="qr-image" />
+            <div className="qr-glow" aria-hidden="true" />
+          </div>
         </div>
       </div>
     </div>
