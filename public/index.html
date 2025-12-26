@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyKwork — маркетплейс помощи студентам</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <button class="brand brand-link" data-section="hero" id="brandHome">
+        <div class="logo-dot"></div>
+        <div>
+          <div class="brand-name">StudyKwork</div>
+          <div class="brand-sub">Помощь от студентов для студентов</div>
+        </div>
+      </button>
+      <nav class="nav">
+        <button class="nav-link" data-section="hero">Главная</button>
+        <button class="nav-link" data-section="feed">Объявления</button>
+        <button class="nav-link" data-section="add-ad">Добавить</button>
+        <button class="nav-link" data-section="my-ads">Мои объявления</button>
+        <button class="nav-link" data-section="profile">Профиль</button>
+      </nav>
+      <div class="actions">
+        <button id="loginToggle" class="ghost">Войти</button>
+        <button class="primary" data-section="add-ad">Разместить объявление</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="hero" class="section hero active">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow">Маркетплейс студенческих услуг</p>
+            <h1>Найди помощь, реши задачи, найми одногруппника</h1>
+            <p class="lede">OLX-подобный маркет для студентов: курсовые, репетиторство, программирование, дизайн, поиск тиммейтов и даже соседа по общаге.</p>
+            <div class="hero-actions">
+              <button class="primary" data-section="feed">Найти помощь</button>
+              <button class="secondary" data-section="add-ad">Разместить объявление</button>
+            </div>
+            <div class="chips">
+              <span class="chip">Курсовые</span>
+              <span class="chip">Математика/физика</span>
+              <span class="chip">Репетиторство</span>
+              <span class="chip">Дизайн</span>
+              <span class="chip">Программирование</span>
+            </div>
+          </div>
+          <div class="hero-card">
+            <div class="hero-cta">
+              <div>
+                <p class="muted">Средний ответ</p>
+                <h2>~12 минут</h2>
+              </div>
+              <div>
+                <p class="muted">Активных объявлений</p>
+                <h2 id="statsTotal">0</h2>
+              </div>
+              <div>
+                <p class="muted">Категорий</p>
+                <h2>9</h2>
+              </div>
+            </div>
+            <div class="hero-preview">
+              <div class="preview-card">
+                <div class="pill success">Решу задачи</div>
+                <h3>Помогу закрыть сессию по высшей математике</h3>
+                <p class="muted">Есеновский университет • Актау • 12 000 ₸</p>
+                <div class="avatars">
+                  <div class="avatar">AK</div>
+                  <div class="avatar">IM</div>
+                  <div class="avatar">KO</div>
+                </div>
+              </div>
+              <div class="preview-card">
+                <div class="pill neutral">Дизайн</div>
+                <h3>Сделаю презентацию на 20 слайдов</h3>
+                <p class="muted">Есеновский университет • Актау • 8 500 ₸</p>
+                <div class="cta-row">
+                  <button class="ghost small">Смотреть</button>
+                  <button class="primary small" data-section="add-ad">Разместить своё</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="feed" class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Лента объявлений</p>
+            <h2>Найди нужную помощь за пару минут</h2>
+          </div>
+          <div class="inline-actions">
+            <button class="ghost" id="resetFilters">Сбросить фильтры</button>
+            <button class="primary" data-section="add-ad">+ Создать объявление</button>
+          </div>
+        </div>
+        <div class="filters">
+          <div class="input-group">
+            <label for="search">Поиск</label>
+            <input type="search" id="search" placeholder="Курсовая по маркетингу, репетитор по JavaScript...">
+          </div>
+          <div class="input-group">
+            <label for="category">Категория</label>
+            <select id="category">
+              <option value="">Любая</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label for="university">ВУЗ</label>
+            <select id="university" disabled>
+              <option value="">Yessenov University (Актау)</option>
+            </select>
+          </div>
+          <div class="input-group">
+            <label>Цена, ₸</label>
+            <div class="split">
+              <input type="number" id="priceMin" placeholder="от">
+              <input type="number" id="priceMax" placeholder="до">
+            </div>
+          </div>
+        </div>
+        <div id="adsGrid" class="ads-grid"></div>
+      </section>
+
+      <section id="add-ad" class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Создание объявления</p>
+            <h2>Расскажи, чем можешь помочь</h2>
+          </div>
+          <p class="muted">Заполни форму — объявление появится в ленте и в твоих объявлениях.</p>
+        </div>
+        <form id="adForm" class="card form-card">
+          <div class="grid-2">
+            <div class="input-group">
+              <label for="adTitle">Заголовок</label>
+              <input id="adTitle" required maxlength="120" placeholder="Например, решу задачи по физике за вечер">
+            </div>
+            <div class="input-group">
+              <label for="adCategory">Категория</label>
+              <select id="adCategory" required></select>
+            </div>
+          </div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="adPrice">Цена, ₸</label>
+              <input type="number" id="adPrice" required min="0" step="500" placeholder="10000">
+            </div>
+            <div class="input-group">
+              <label for="adUniversity">ВУЗ</label>
+              <input id="adUniversity" required value="Yessenov University (Актау)" disabled>
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="adDescription">Описание</label>
+            <textarea id="adDescription" rows="4" required placeholder="Кратко опиши опыт, сроки, формат работы"></textarea>
+          </div>
+          <div class="grid-3">
+            <div class="input-group">
+              <label for="adPhone">Телефон</label>
+              <input id="adPhone" placeholder="+7 777 000 00 00">
+            </div>
+            <div class="input-group">
+              <label for="adWhatsApp">WhatsApp</label>
+              <input id="adWhatsApp" placeholder="+7 777 000 00 00">
+            </div>
+            <div class="input-group">
+              <label for="adTelegram">Telegram</label>
+              <input id="adTelegram" placeholder="@nickname">
+            </div>
+          </div>
+          <div class="input-group">
+            <label for="adImages">Фото / скрины (до 4)</label>
+            <input type="file" id="adImages" accept="image/*" multiple>
+            <div id="imagePreview" class="image-preview"></div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary">Опубликовать</button>
+            <p class="muted">Объявление привяжется к вашему профилю.</p>
+          </div>
+        </form>
+      </section>
+
+      <section id="my-ads" class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Личный кабинет</p>
+            <h2>Мои объявления и избранное</h2>
+          </div>
+          <button class="primary" data-section="add-ad">+ Новое объявление</button>
+        </div>
+        <div class="split-panels">
+          <div class="card">
+            <div class="section-subheader">
+              <div>
+                <p class="eyebrow">Публикации</p>
+                <h3>Мои объявления</h3>
+              </div>
+              <span class="pill neutral" id="myAdsCount">0</span>
+            </div>
+            <div id="myAdsList" class="stack"></div>
+          </div>
+          <div class="card">
+            <div class="section-subheader">
+              <div>
+                <p class="eyebrow">Избранное</p>
+                <h3>Сохраненные объявления</h3>
+              </div>
+              <span class="pill success" id="favCount">0</span>
+            </div>
+            <div id="favoritesList" class="stack"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="profile" class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Профиль</p>
+            <h2>Управляй своим аккаунтом</h2>
+          </div>
+          <p class="muted">Регистрация и логин для студентов Yessenov University. Данные сохраняются на сервере (SQLite демо).</p>
+        </div>
+        <div class="split-panels">
+          <div class="card">
+            <div class="tabs">
+              <button class="tab-button active" data-tab="register">Регистрация</button>
+              <button class="tab-button" data-tab="login">Логин</button>
+            </div>
+            <div id="tab-register" class="tab-panel active">
+              <form id="registerForm" class="stack">
+                <div class="input-group">
+                  <label for="regName">Имя</label>
+                  <input id="regName" required placeholder="Айдан">
+                </div>
+                <div class="input-group">
+                  <label for="regEmail">Почта</label>
+                  <input type="email" id="regEmail" required placeholder="you@student.kz">
+                </div>
+                <div class="input-group">
+                  <label for="regUniversity">ВУЗ</label>
+                  <input id="regUniversity" required value="Есеновский университет" disabled>
+                </div>
+                <div class="input-group">
+                  <label for="regPassword">Пароль</label>
+                  <input type="password" id="regPassword" required minlength="6">
+                </div>
+                <button class="primary" type="submit">Зарегистрироваться</button>
+              </form>
+            </div>
+            <div id="tab-login" class="tab-panel">
+              <form id="loginForm" class="stack">
+                <div class="input-group">
+                  <label for="loginEmail">Почта</label>
+                  <input type="email" id="loginEmail" required>
+                </div>
+                <div class="input-group">
+                  <label for="loginPassword">Пароль</label>
+                  <input type="password" id="loginPassword" required>
+                </div>
+                <button class="secondary" type="submit">Войти</button>
+              </form>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Профиль</h3>
+            <div id="currentUser" class="profile-card muted"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="ad-view" class="section">
+        <div class="section-header">
+          <div>
+            <p class="eyebrow">Объявление</p>
+            <h2 id="adViewTitle">Детали объявления</h2>
+          </div>
+          <button id="backToFeed" class="ghost">← Назад к ленте</button>
+        </div>
+        <div id="adViewCard" class="ad-view card">
+          <div class="ad-view-media">
+            <img id="adViewMain" alt="Фото объявления">
+            <div id="adViewGallery" class="ad-view-gallery"></div>
+          </div>
+          <div class="ad-view-info">
+            <div class="pill neutral" id="adViewCategory"></div>
+            <div class="ad-view-meta" id="adViewMeta"></div>
+            <div class="price" id="adViewPrice"></div>
+            <p id="adViewDescription"></p>
+            <div class="contact-chips" id="adViewContacts"></div>
+            <div class="cta-row">
+              <button id="adViewFav" class="ghost">В избранное</button>
+              <button id="adViewChat" class="primary">Написать</button>
+              <button id="adViewCall" class="secondary">Позвонить</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="floating-cta">
+    <button class="primary" data-section="add-ad">+ Объявление</button>
+  </div>
+
+  <script src="script.js" type="module"></script>
+</body>
+</html>
